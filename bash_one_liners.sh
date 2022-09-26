@@ -5,7 +5,7 @@
 # Everyone is permitted to copy and distribute verbatim copies
 # of this license document, but changing it is not allowed.
 
-######### Simple bash commands to work with in FASTA files ############
+######### Simple bash commands to work with FASTA files ############
 
 ######### counting number of sequences in a fasta file: #########
 grep -c "^>" file.fa
