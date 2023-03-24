@@ -7,6 +7,7 @@
 # of this license document, but changing it is not allowed.
 
 ######### Script to download the assembled genome of an SRA sample through BioSample ID ############## 
+## Currently doesn't work and further improvements needed, please feel free to add to it.
 
 [[ "$#" -eq 2 ]] && destdir=$2 || destdir=$PWD
 
