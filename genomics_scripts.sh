@@ -15,20 +15,14 @@ find /path to parent dir/ -name '*.ext' -exec cp -t /path to new dir/ {} +
 ####### Copying file with same extension from multiple directories to one directory before ###############
 find /path/to/file/ -type f -name "*.fa" -execdir cp "{}" ../ \;
 
-
-##################### bulk assembly using spades (or any other pipeline for that matter) ########################################################
-for prefix in $(ls /path/*_1.fastq | sed -r 's/_1[.]fastq//' | uniq) 
-do 
-time metaspades.py -t 16 -1 ${prefix}_1.fastq -2 ${prefix}_2.fastq -o ${prefix%.fastq}_output 
-done
-
 ################ bulk quast stats ###################
-python ~/anaconda3/bin/metaquast.py $(find /path/tarvir_out/*_output/Contigs.fa) -t 16 -o ~/output/ -r reference.fa
+python ~/anaconda3/bin/metaquast.py $(find /path/assembly_out/*_output/contigs.fa) -t 16 -o ~/output/ -r reference.fa
 
-########## bulk KAT comp ######################
+########## bulk KAT k-mer analysis ######################
 for data in $(ls /home/username/path/*_1.fastq)
 do 
 kat comp -t 8 -o KAT_spades/${data%1.fastq}spades_KAT/ ${data} ${data%1.fastq}spades.fa
+# Adding a forward-slash (/) when specifying output creates a directory and writes the output files into it. 
 done
 
 ###### bash script to rename a final in each directory to the name of the folder ###########
@@ -38,7 +32,7 @@ do
 #move to directory
  (cd "$folder")  
 #Rename
-  cp "$folder/contigs_k63.fa" "$folder.fa"
+  cp "$folder/contigs_k33.fa" "$folder.fa"
 done
 
 ########## Using awk to parse unique vales of a particular column #############
@@ -53,8 +47,8 @@ samtools view -c -f0x4 aln_complete.sam
 ############### Filter primary reads in bam file ##################
 samtools view -b -F 0x800 -F 0x100 output.bam > primary_alignment.bam
 
-########### Seqkit locate to check mapping ##############
-cat <referenceFasta> | seqkit locate -i -I -f <contigs.fa> -j <No. of threads>  > <Output_file.txt>
+########### Seqkit locate to find mapped sequences ##############
+cat <referenceFasta> | seqkit locate -i -I -F -f <contigs.fa> -j <No. of threads>  > <Output_file.txt>
 
 ############ Seqkit stats to retrieve unique fasta headers ################3
 Copy the <outputfile.txt> retrieved from seqkit locate 2nd column and and paste in <list.csv>.
