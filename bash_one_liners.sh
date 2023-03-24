@@ -22,5 +22,5 @@ grep -o -E "^>\w+" file.fasta | tr -d ">"
 ####### Remove duplicated sequences ########## 
 sed -e '/^>/s/$/@/' -e 's/^>/#/' file.fasta | tr -d '\n' | tr "#" "\n" | tr "@" "\t" | sort -u -t $'\t' -f -k 2,2  | sed -e 's/^/>/' -e 's/\t/\n/'
 
-######## Remove duplicated fastas in a multifasta ##########
+######## Remove duplicate seqeuences in a multifasta file ##########
 seqkit rmdup -s <inputfile.fa> > <newfile.fa>
